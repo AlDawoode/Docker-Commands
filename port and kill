@@ -1,0 +1,7 @@
+
+#show all ports :
+sudo netstat -tupln
+
+
+#kill port by PID :
+sudo kill -15 PID
