@@ -1,0 +1,38 @@
+FROM java:8
+
+WORKDIR /app
+COPY . .
+
+RUN ./gradlew bootJar
+
+EXPOSE 8080
+
+CMD java -jar build/libs/*.jar
+
+
+--------------------------------------Written by Al Dawoode----------------------------------------------
+And here we have a docker-compose file that links between spring Boot and MySQL.
+version: "2"
+services:
+  mysql-docker:
+    container_name: mysql-docker
+    image: mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=NKT
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+    ports:
+      - "3306:3306"
+  app:
+    container_name: spring-docker
+    restart: always
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-docker
+      
+
+--------------------------------------Written by Al Dawoode----------------------------------------------
