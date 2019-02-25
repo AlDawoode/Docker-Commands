@@ -1,0 +1,51 @@
+Dockerfile :
+
+FROM java:8
+
+
+WORKDIR /app/app
+
+COPY . .
+
+RUN ./gradlew bootJar
+
+EXPOSE 8080
+
+
+ENTRYPOINT [ "java","-jar","build/libs/nkt-0.0.1-SNAPSHOT.jar" ]
+
+
+Docker-compose.yml :
+
+version: "3"
+
+
+services:
+  mysql-docker:
+    container_name: mysql-docker
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=NKT
+      - MYSQL_PASSWORD=root
+    ports:
+      - "3306:3306"
+  app:
+    container_name: spring-docker
+    
+    build: .
+
+    volumes:
+      - ./src:/app/app/src
+
+    
+    restart: always
+    
+    ports:
+      - "8080:8080"
+
+   
+    depends_on:
+      - mysql-docker
+
