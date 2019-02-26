@@ -5,3 +5,8 @@ sudo netstat -tupln
 
 #kill port by PID :
 sudo kill -15 PID
+
+
+
+#If you can't see ID so you can try this 
+sudo fuser -n tcp -k 8080
